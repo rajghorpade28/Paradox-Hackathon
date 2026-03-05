@@ -42,16 +42,6 @@ export function GlobalThreatFeed() {
 
     return (
         <div className="bg-white/[0.02] backdrop-blur-md border border-white/5 rounded-2xl p-6 overflow-hidden h-full flex flex-col">
-            <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center gap-2">
-                    <div className="w-1 h-1 bg-[#ff3b00] animate-pulse" />
-                    <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 font-mono italic">Live Pulse</h3>
-                </div>
-                <div className="px-2 py-0.5 rounded bg-[#ff3b00]/10 border border-[#ff3b00]/20 text-[8px] text-[#ff3b00] font-bold tracking-[0.2em]">
-                    REAL-TIME
-                </div>
-            </div>
-
             <div className="space-y-4 overflow-y-auto pr-2 flex-1 scrollbar-hide">
                 {threats.length === 0 && (
                     <div className="flex flex-col items-center justify-center h-full py-20 text-center gap-4">

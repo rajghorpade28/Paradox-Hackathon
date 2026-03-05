@@ -9,8 +9,7 @@ export function DashboardMetrics() {
         totalScans: 0,
         criticalThreats: 0,
         avgScore: 0,
-        recentScans: 0,
-        uptime: "0h"
+        recentScans: 0
     });
 
     useEffect(() => {
@@ -30,18 +29,7 @@ export function DashboardMetrics() {
                 oneDayAgo.setDate(oneDayAgo.getDate() - 1);
                 const recent = data.filter((d: { overall_risk_score: number; created_at: string }) => new Date(d.created_at) > oneDayAgo).length;
 
-                let uptimeStr = "0h";
-                if (data.length > 0) {
-                    const oldest = new Date(Math.min(...data.map((d: any) => new Date(d.created_at).getTime())));
-                    const now = new Date();
-                    const diffMs = now.getTime() - oldest.getTime();
-                    const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
-                    const diffDays = Math.floor(diffHrs / 24);
-                    const remHrs = diffHrs % 24;
-                    uptimeStr = diffDays > 0 ? `${diffDays}d:${remHrs}h` : `${remHrs}h`;
-                }
-
-                setMetrics({ totalScans: total, criticalThreats: critical, avgScore: avg, recentScans: recent, uptime: uptimeStr });
+                setMetrics({ totalScans: total, criticalThreats: critical, avgScore: avg, recentScans: recent });
             }
         }
 
@@ -59,7 +47,7 @@ export function DashboardMetrics() {
     }, []);
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             {/* Metric 1 */}
             <div className="bg-[#121214] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
                 <div className="flex justify-between items-start mb-4">
@@ -122,24 +110,6 @@ export function DashboardMetrics() {
                 <p className="text-zinc-600 text-[10px] mt-2 font-mono">System-wide average</p>
             </div>
 
-            {/* Metric 4 */}
-            <div className="bg-[#121214] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
-                <div className="flex justify-between items-start mb-4">
-                    <p className="text-zinc-400 text-sm font-medium">System uptime</p>
-                    <div className="bg-white/5 text-zinc-300 text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1">
-                        <Clock className="w-3 h-3 text-zinc-400" /> 99.9%
-                    </div>
-                </div>
-                <div className="flex items-end justify-between">
-                    <h2 className="text-3xl font-light text-white">{metrics.uptime}</h2>
-                    <div className="w-16 h-6 flex items-center gap-0.5 justify-end">
-                        {Array.from({ length: 12 }).map((_, i) => (
-                            <div key={i} className={`w-1 rounded-full ${i % 3 === 0 ? 'bg-[#ff3b00] h-6' : i % 2 === 0 ? 'bg-amber-500 h-4' : 'bg-zinc-700 h-2'}`}></div>
-                        ))}
-                    </div>
-                </div>
-                <p className="text-zinc-600 text-[10px] mt-2 font-mono">Since last telemetry drop</p>
-            </div>
         </div>
     );
 }

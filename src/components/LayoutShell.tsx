@@ -13,7 +13,7 @@ export function LayoutShell({ children }: LayoutShellProps) {
       <aside className="w-64 border-r border-white/5 bg-[#0e0e11] flex flex-col shrink-0 sticky top-0 h-screen overflow-y-auto">
         <div className="p-6">
           <div className="flex items-center gap-3 mb-8">
-            <h1 className="text-sm font-bold tracking-[0.15em] text-white">CY • FOCUS</h1>
+            <h1 className="text-sm font-bold tracking-[0.15em] text-white">PHALANX • AI</h1>
           </div>
 
           <nav className="space-y-1">
