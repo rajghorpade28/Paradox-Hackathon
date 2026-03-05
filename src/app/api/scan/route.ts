@@ -16,7 +16,6 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'URL is required' }, { status: 400 });
         }
 
-        // 1. Create entry in Supabase
         const { data: scan, error: insertError } = await supabase
             .from('scans')
             .insert([{
@@ -32,25 +31,18 @@ export async function POST(req: Request) {
 
         const scanId = scan.id;
 
-        // Perform analysis asynchronously (don't await since we use Realtime)
-        // Note: For a real app, use a background worker. For hackathon, we'll keep the connection open or use edge functions.
         (async () => {
             try {
-                // Step 1: Scrape
                 const scrapeData = await scrapeSite(url);
 
                 await supabase.from('scans').update({ status: 'analyzing' }).eq('id', scanId);
 
-                // Step 2: Domain Analysis
                 const domainData = analyzeDomain(url);
 
-                // Step 3: Vision Analysis
                 const visionData = await analyzeVisuals(scrapeData.screenshot_url, domainData.targetBrand);
 
-                // Step 4: Content Analysis
                 const contentData = analyzeContent(scrapeData.markdown);
 
-                // Step 5: Scoring
                 const overallScore = calculateScore(
                     domainData.domainRiskScore,
                     visionData.visualSimilarityScore,
@@ -59,7 +51,6 @@ export async function POST(req: Request) {
 
                 const category = overallScore > 70 ? 'Critical' : overallScore > 30 ? 'Warning' : 'Safe';
 
-                // Final Update
                 await supabase.from('scans').update({
                     status: 'completed',
                     overall_risk_score: overallScore,

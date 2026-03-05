@@ -14,7 +14,6 @@ export function DashboardMetrics() {
 
     useEffect(() => {
         async function fetchMetrics() {
-            // Fetch all to compute real metrics instantly (not ideal for huge datasets, but works for our hackathon demo)
             const { data, error } = await supabase
                 .from('scans')
                 .select('overall_risk_score, created_at');
@@ -24,7 +23,6 @@ export function DashboardMetrics() {
                 const critical = data.filter((d: { overall_risk_score: number; created_at: string }) => d.overall_risk_score > 80).length;
                 const avg = total > 0 ? Math.round(data.reduce((acc: number, curr: { overall_risk_score: number; created_at: string }) => acc + curr.overall_risk_score, 0) / total) : 0;
 
-                // Count scans in the last 24 hours
                 const oneDayAgo = new Date();
                 oneDayAgo.setDate(oneDayAgo.getDate() - 1);
                 const recent = data.filter((d: { overall_risk_score: number; created_at: string }) => new Date(d.created_at) > oneDayAgo).length;
@@ -35,7 +33,6 @@ export function DashboardMetrics() {
 
         fetchMetrics();
 
-        // Subscribe to changes for live updates
         const channel = supabase
             .channel('metrics-changes')
             .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'scans' }, () => {
@@ -48,7 +45,6 @@ export function DashboardMetrics() {
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            {/* Metric 1 */}
             <div className="bg-[#121214] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
                 <div className="flex justify-between items-start mb-4">
                     <p className="text-zinc-400 text-sm font-medium">Total analyzed</p>
@@ -69,7 +65,6 @@ export function DashboardMetrics() {
                 <p className="text-zinc-600 text-[10px] mt-2 font-mono">{metrics.recentScans} last week</p>
             </div>
 
-            {/* Metric 2 */}
             <div className="bg-[#121214] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
                 <div className="flex justify-between items-start mb-4">
                     <p className="text-zinc-400 text-sm font-medium">Active threats</p>
@@ -92,7 +87,6 @@ export function DashboardMetrics() {
                 <p className="text-zinc-600 text-[10px] mt-2 font-mono">Requiring attention</p>
             </div>
 
-            {/* Metric 3 */}
             <div className="bg-[#121214] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
                 <div className="flex justify-between items-start mb-4">
                     <p className="text-zinc-400 text-sm font-medium">Avg risk score</p>

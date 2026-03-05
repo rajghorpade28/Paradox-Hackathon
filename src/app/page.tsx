@@ -40,16 +40,12 @@ export default function DashboardPage() {
     <LayoutShell>
       <div className="space-y-6 animate-in fade-in duration-500">
 
-        {/* Top Metric Cards */}
         <DashboardMetrics />
 
-        {/* Two Column Layout like CY FOCUS */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-          {/* Left Large Column (Scan + Insights) */}
           <div className="lg:col-span-2 space-y-6">
 
-            {/* Action Module: Scanner */}
             <div className="bg-[#121214] border border-white/5 rounded-2xl p-6">
               <h3 className="text-zinc-300 text-sm font-bold tracking-tight mb-4">Investigate Target</h3>
               <ScannerInput isScanning={isScanning} onSubmit={initiateScan} />
@@ -66,7 +62,6 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {/* Insight Module: Multimodal Vision Analysis */}
             <VisualMatchCard
               suspiciousUrl={results?.vision_agent_data?.suspicious_screenshot_url || ""}
               targetUrl={results?.vision_agent_data?.target_brand_screenshot_url || ""}
@@ -76,7 +71,6 @@ export default function DashboardPage() {
               observations={results?.vision_agent_data?.observations || ""}
             />
 
-            {/* Insight Module: Global Threat Intelligence */}
             <ThreatIntelligenceGrid
               findings={results?.domain_agent_data?.findings || "Ready to analyze incoming telemetry..."}
               redFlags={combinedRedFlags}
@@ -86,7 +80,6 @@ export default function DashboardPage() {
 
           </div>
 
-          {/* Right Column (Recent Activity Feed) */}
           <div className="lg:col-span-1 border border-white/5 bg-[#121214] rounded-2xl flex flex-col h-[calc(100vh-220px)] sticky top-[220px]">
             <GlobalThreatFeed />
           </div>
