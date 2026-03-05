@@ -19,20 +19,20 @@ export function AgentStepper({ domainStatus, scrapingStatus, visionStatus }: Age
     const renderIcon = (status: AgentStatus) => {
         switch (status) {
             case "completed":
-                return <div className="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />;
+                return <div className="h-2 w-2 rounded-full bg-[#ff3b00] shadow-[0_0_8px_rgba(255,59,0,0.8)]" />;
             case "scanning":
                 return <div className="h-2 w-2 rounded-full bg-amber-500 animate-pulse" />;
             case "failed":
                 return <div className="h-2 w-2 rounded-full bg-rose-500" />;
             default:
-                return <div className="h-2 w-2 rounded-full bg-slate-800" />;
+                return <div className="h-2 w-2 rounded-full bg-zinc-800" />;
         }
     };
 
     return (
         <div className="bg-white/[0.02] backdrop-blur-md border border-white/5 rounded-2xl p-6">
-            <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-8 font-mono flex items-center gap-2">
-                <div className="w-1 h-1 bg-emerald-500"></div>
+            <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 mb-8 font-mono flex items-center gap-2">
+                <div className="w-1 h-1 bg-[#ff3b00]"></div>
                 Agent Pipeline
             </h3>
             <div className="space-y-10">
@@ -41,7 +41,7 @@ export function AgentStepper({ domainStatus, scrapingStatus, visionStatus }: Age
                         {/* Connecting Line */}
                         {idx !== steps.length - 1 && (
                             <div
-                                className={`absolute left-[3px] top-4 w-[1px] h-10 ${step.status === "completed" ? "bg-emerald-500/30" : "bg-slate-800"}`}
+                                className={`absolute left-[3px] top-4 w-[1px] h-10 ${step.status === "completed" ? "bg-[#ff3b00]/30" : "bg-zinc-800"}`}
                             />
                         )}
 
@@ -50,11 +50,11 @@ export function AgentStepper({ domainStatus, scrapingStatus, visionStatus }: Age
                         </div>
 
                         <div className="flex-1 min-w-0">
-                            <p className={`text-[11px] font-bold uppercase tracking-wider ${step.status === "pending" ? "text-slate-500" : "text-slate-300"}`}>
+                            <p className={`text-[11px] font-bold uppercase tracking-wider ${step.status === "pending" ? "text-zinc-500" : "text-zinc-300"}`}>
                                 {step.label}
                             </p>
                             <div className="flex items-center gap-2 mt-1">
-                                <p className="text-[9px] font-mono text-slate-600 uppercase tracking-widest italic">
+                                <p className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest italic">
                                     {step.status}
                                 </p>
                             </div>
