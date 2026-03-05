@@ -1,1 +1,4 @@
 appwrite
+rapidfuzz
+requests
+google-generativeai

@@ -1,7 +1,7 @@
 import React from "react";
 import { CheckCircle2, CircleDashed, Loader2 } from "lucide-react";
 
-export type AgentStatus = "pending" | "scanning" | "completed" | "error";
+export type AgentStatus = "pending" | "scanning" | "completed" | "failed" | "waiting";
 
 interface AgentStepperProps {
     domainStatus: AgentStatus;
@@ -22,8 +22,8 @@ export function AgentStepper({ domainStatus, scrapingStatus, visionStatus }: Age
                 return <CheckCircle2 className="h-6 w-6 text-emerald-500" />;
             case "scanning":
                 return <Loader2 className="h-6 w-6 text-amber-500 animate-spin" />;
-            case "error":
-                return <CheckCircle2 className="h-6 w-6 text-rose-500" />; // Or an Error icon
+            case "failed":
+                return <CheckCircle2 className="h-6 w-6 text-rose-500" />;
             default:
                 return <CircleDashed className="h-6 w-6 text-slate-600" />;
         }

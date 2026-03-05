@@ -1,4 +1,6 @@
-import { Client, Databases } from 'appwrite';
+import { Client, Databases, ID } from 'appwrite';
+
+export { ID };
 
 const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || 'https://cloud.appwrite.io/v1';
 const projectId = process.env.NEXT_PUBLIC_APPWRITE_PROJECT || '';
