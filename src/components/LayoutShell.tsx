@@ -1,45 +1,78 @@
 import React from "react";
 
+import { LayoutDashboard, FileSearch, AlertTriangle, ShieldCheck, Database, HelpCircle, Plus } from "lucide-react";
+
 interface LayoutShellProps {
   children: React.ReactNode;
 }
 
 export function LayoutShell({ children }: LayoutShellProps) {
   return (
-    <div className="min-h-screen bg-[#020617] text-slate-100 font-sans selection:bg-emerald-500/30">
-      {/* Premium Background Effects */}
-      <div className="fixed inset-0 pointer-events-none opacity-[0.03]"
-        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2394a3b8' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E")` }}>
-      </div>
-      <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-emerald-500/5 via-transparent to-transparent"></div>
-
-      {/* Top Navigation */}
-      <header className="h-20 border-b border-white/5 bg-slate-950/50 backdrop-blur-md flex items-center px-6 sticky top-0 z-50">
-        <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 p-[1px]">
-              <div className="w-full h-full rounded-[11px] bg-slate-950 flex items-center justify-center text-emerald-400 font-black text-xs">
-                PX
-              </div>
-            </div>
-            <div>
-              <h1 className="text-lg font-bold tracking-tight text-white leading-none mb-1">Paradox Intelligence</h1>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-medium">Detection Engine</p>
-            </div>
+    <div className="min-h-screen bg-[#09090b] text-zinc-300 font-sans selection:bg-[#ff3b00]/30 flex">
+      {/* Sidebar */}
+      <aside className="w-64 border-r border-white/5 bg-[#0e0e11] flex flex-col shrink-0 sticky top-0 h-screen overflow-y-auto">
+        <div className="p-6">
+          <div className="flex items-center gap-3 mb-8">
+            <h1 className="text-sm font-bold tracking-[0.15em] text-white">CY • FOCUS</h1>
           </div>
 
-          <div className="hidden md:flex items-center gap-6">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-              <span className="text-[11px] font-mono text-slate-400 uppercase tracking-widest">System Online</span>
+          <button className="w-full bg-[#ff3b00] hover:bg-[#ff4f1a] text-white font-medium text-sm rounded-lg flex items-center justify-between px-3 py-2.5 transition-colors mb-6 shadow-[0_0_15px_rgba(255,59,0,0.2)]">
+            <span>New task</span>
+            <div className="bg-white/20 p-1 rounded-md">
+              <Plus className="w-4 h-4" />
+            </div>
+          </button>
+
+          <nav className="space-y-1">
+            <a href="#" className="flexItems-center gap-3 px-3 py-2 rounded-lg bg-white/5 text-white font-medium text-sm">
+              <LayoutDashboard className="w-4 h-4 text-zinc-400" />
+              Dashboard
+            </a>
+            <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-zinc-400 hover:text-white transition-colors text-sm">
+              <FileSearch className="w-4 h-4" />
+              Findings
+            </a>
+            <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-zinc-400 hover:text-white transition-colors text-sm">
+              <AlertTriangle className="w-4 h-4" />
+              Incidents
+            </a>
+            <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-zinc-400 hover:text-white transition-colors text-sm">
+              <ShieldCheck className="w-4 h-4" />
+              Compliance
+            </a>
+            <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-zinc-400 hover:text-white transition-colors text-sm">
+              <Database className="w-4 h-4" />
+              Vault
+            </a>
+            <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-zinc-400 hover:text-white transition-colors text-sm">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10.3 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10l-3.1-3.1a2 2 0 0 0-2.814.014L6 16m4.3 5L15 21l3-3m0 0l-3-3m3 3h-8" /></svg>
+              Integrations
+            </a>
+          </nav>
+        </div>
+
+        <div className="mt-auto p-6 space-y-4">
+          <a href="#" className="flex items-center gap-3 text-zinc-400 hover:text-white text-sm">
+            <HelpCircle className="w-4 h-4" />
+            Help & Docs
+          </a>
+          <div className="flex items-center gap-3 pt-4 border-t border-white/5">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-[#ff3b00] flex items-center justify-center text-white font-bold text-xs uppercase cursor-pointer">
+              AG
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-white truncate">Anna Gunn</p>
+              <p className="text-xs text-zinc-500 truncate">@gunna25</p>
             </div>
           </div>
         </div>
-      </header>
+      </aside>
 
       {/* Main Content Area */}
-      <main className="relative flex-1 w-full max-w-7xl mx-auto p-6 md:p-10">
-        {children}
+      <main className="flex-1 min-w-0 p-8">
+        <div className="max-w-[1400px] mx-auto">
+          {children}
+        </div>
       </main>
     </div>
   );

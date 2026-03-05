@@ -10,10 +10,11 @@ import { RiskScoreGauge } from "@/components/RiskScoreGauge";
 import { GlobalThreatFeed } from "@/components/GlobalThreatFeed";
 import { useSupabaseScan } from "@/hooks/useSupabaseScan";
 
+import { DashboardMetrics } from "@/components/DashboardMetrics";
+
 export default function DashboardPage() {
   const { results, status, isScanning, initiateScan } = useSupabaseScan();
 
-  // Map status for the stepper
   const getStepperStatus = (step: string) => {
     if (status === "completed") return "completed";
     if (status === "failed") return "failed";
@@ -37,39 +38,35 @@ export default function DashboardPage() {
 
   return (
     <LayoutShell>
-      <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+      <div className="space-y-6 animate-in fade-in duration-500">
 
-        {/* Hero Section - Extremely Minimal */}
-        <section className="text-center">
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-4 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/50">
-            Threat Intelligence Engine
-          </h2>
-          <p className="text-[10px] uppercase tracking-[0.5em] text-emerald-500 font-bold mb-10 opacity-80">
-            Autonomous Detection Infrastructure
-          </p>
-          <ScannerInput isScanning={isScanning} onSubmit={initiateScan} />
-        </section>
+        {/* Top Metric Cards */}
+        <DashboardMetrics />
 
-        {/* Global Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        {/* Two Column Layout like CY FOCUS */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-          {/* Left Column: Pipeline Steps (1 col) */}
-          <div className="lg:col-span-1 space-y-6">
-            <AgentStepper
-              domainStatus={getStepperStatus("domain")}
-              scrapingStatus={getStepperStatus("scraping")}
-              visionStatus={getStepperStatus("vision")}
-            />
+          {/* Left Large Column (Scan + Insights) */}
+          <div className="lg:col-span-2 space-y-6">
 
-            <div className="h-48">
-              <RiskScoreGauge score={results?.overall_risk_score || 0} />
+            {/* Action Module: Scanner */}
+            <div className="bg-[#121214] border border-white/5 rounded-2xl p-6">
+              <h3 className="text-zinc-300 text-sm font-bold tracking-tight mb-4">Investigate Target</h3>
+              <ScannerInput isScanning={isScanning} onSubmit={initiateScan} />
+
+              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <AgentStepper
+                  domainStatus={getStepperStatus("domain")}
+                  scrapingStatus={getStepperStatus("scraping")}
+                  visionStatus={getStepperStatus("vision")}
+                />
+                <div className="h-[280px]">
+                  <RiskScoreGauge score={results?.overall_risk_score || 0} />
+                </div>
+              </div>
             </div>
-          </div>
 
-          {/* Middle Area: Detailed Insights (3 cols) */}
-          <div className="lg:col-span-3 space-y-6 flex flex-col">
-
-            {/* Visual Comparison Card */}
+            {/* Insight Module: Multimodal Vision Analysis */}
             <VisualMatchCard
               suspiciousUrl={results?.vision_agent_data?.suspicious_screenshot_url || ""}
               targetUrl={results?.vision_agent_data?.target_brand_screenshot_url || ""}
@@ -79,25 +76,24 @@ export default function DashboardPage() {
               observations={results?.vision_agent_data?.observations || ""}
             />
 
-            {/* Text Analysis Grid */}
-            <div className="flex-1 min-h-[200px]">
-              <ThreatIntelligenceGrid
-                findings={results?.domain_agent_data?.findings || "Ready to analyze..."}
-                redFlags={combinedRedFlags}
-                urgencyKeywords={results?.content_agent_data?.urgency_keywords_detected || false}
-                suspiciousForms={results?.content_agent_data?.suspicious_forms || 0}
-              />
-            </div>
+            {/* Insight Module: Global Threat Intelligence */}
+            <ThreatIntelligenceGrid
+              findings={results?.domain_agent_data?.findings || "Ready to analyze incoming telemetry..."}
+              redFlags={combinedRedFlags}
+              urgencyKeywords={results?.content_agent_data?.urgency_keywords_detected || false}
+              suspiciousForms={results?.content_agent_data?.suspicious_forms || 0}
+            />
+
           </div>
 
-          {/* Right Column: Global Threat Feed (1 col) */}
-          <div className="lg:col-span-1">
+          {/* Right Column (Recent Activity Feed) */}
+          <div className="lg:col-span-1 border border-white/5 bg-[#121214] rounded-2xl flex flex-col h-[calc(100vh-220px)] sticky top-[220px]">
             <GlobalThreatFeed />
           </div>
 
         </div>
-
       </div>
     </LayoutShell>
   );
 }
+

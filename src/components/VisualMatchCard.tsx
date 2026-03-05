@@ -42,14 +42,14 @@ function ScreenshotSlot({
                         }}
                     />
                 ) : scanCompleted ? (
-                    <div className="flex flex-col items-center gap-2 text-slate-700 p-4 text-center">
+                    <div className="flex flex-col items-center gap-2 text-zinc-700 p-4 text-center">
                         <ImageOff className="w-5 h-5 opacity-30" />
                         <p className="text-[9px] uppercase tracking-widest opacity-30 font-bold">Signal Lost</p>
                     </div>
                 ) : (
                     <div className="w-full h-full p-8 flex flex-col items-center justify-center gap-4">
                         <div className="w-full h-2 bg-white/[0.03] rounded-full overflow-hidden">
-                            <div className="h-full w-1/3 bg-emerald-500/20 animate-shimmer" style={{ background: 'linear-gradient(90deg, transparent, rgba(16,185,129,0.1), transparent)' }}></div>
+                            <div className="h-full w-1/3 bg-[#ff3b00]/20 animate-shimmer" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,59,0,0.1), transparent)' }}></div>
                         </div>
                         <Skeleton className="w-full h-full absolute inset-0 opacity-10 bg-white" />
                     </div>
@@ -71,11 +71,11 @@ export function VisualMatchCard({
         <div className="bg-white/[0.02] backdrop-blur-md border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
             <div className="p-6 border-b border-white/5 flex justify-between items-center bg-white/[0.01]">
                 <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-                    <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 font-mono">
+                    <div className="w-2 h-2 rounded-full bg-[#ff3b00] shadow-[0_0_8px_rgba(255,59,0,0.5)]" />
+                    <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 font-mono">
                         Multimodal Analysis
                         {matchedBrand && (
-                            <span className="ml-3 text-slate-600 font-normal lowercase tracking-normal">
+                            <span className="ml-3 text-zinc-600 font-normal lowercase tracking-normal">
                                 // target: {matchedBrand}
                             </span>
                         )}
@@ -83,13 +83,13 @@ export function VisualMatchCard({
                 </div>
                 {similarityScore !== null && (
                     <div className="flex items-center gap-2">
-                        <span className="text-[9px] text-slate-600 font-bold uppercase tracking-widest">Similarity</span>
+                        <span className="text-[9px] text-zinc-600 font-bold uppercase tracking-widest">Similarity</span>
                         <div
                             className={`px-3 py-1 rounded-lg text-[11px] font-black tracking-wider ${similarityScore > 80
                                 ? "bg-rose-500 text-white"
                                 : similarityScore > 40
                                     ? "bg-amber-500 text-black"
-                                    : "bg-emerald-500 text-black"
+                                    : "bg-[#ff3b00] text-white"
                                 }`}
                         >
                             {similarityScore}%
@@ -113,14 +113,14 @@ export function VisualMatchCard({
                 </div>
 
                 {observations && (
-                    <div className="mt-10 p-6 bg-emerald-500/[0.03] border border-emerald-500/10 rounded-2xl relative overflow-hidden group">
+                    <div className="mt-10 p-6 bg-[#ff3b00]/[0.03] border border-[#ff3b00]/10 rounded-2xl relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-3">
-                            <Zap className="w-3 h-3 text-emerald-500 opacity-20 group-hover:opacity-100 transition-opacity" />
+                            <Zap className="w-3 h-3 text-[#ff3b00] opacity-20 group-hover:opacity-100 transition-opacity" />
                         </div>
-                        <h4 className="text-[9px] font-black text-emerald-500/60 uppercase tracking-[0.2em] mb-3">
+                        <h4 className="text-[9px] font-black text-[#ff3b00]/80 uppercase tracking-[0.2em] mb-3">
                             Vision Agent Intel
                         </h4>
-                        <p className="text-slate-200 text-xs leading-relaxed font-medium">
+                        <p className="text-zinc-300 text-xs leading-relaxed font-medium">
                             {observations}
                         </p>
                     </div>
