@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ImageOff } from "lucide-react";
+import { ImageOff, Zap } from "lucide-react";
 
 interface VisualMatchCardProps {
     suspiciousUrl: string | null;
@@ -23,32 +23,36 @@ function ScreenshotSlot({
     scanCompleted?: boolean;
 }) {
     return (
-        <div className="space-y-3">
-            <h4 className="text-sm font-medium text-slate-400">{label}</h4>
-            <div className="aspect-video w-full rounded-md border border-slate-700 overflow-hidden bg-slate-950 flex items-center justify-center">
+        <div className="space-y-4">
+            <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-600">{label}</h4>
+            <div className="aspect-video w-full rounded-2xl border border-white/5 overflow-hidden bg-white/[0.01] flex items-center justify-center relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none"></div>
                 {url ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                         src={url}
                         alt={`${label} Screenshot`}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-500"
                         onError={(e) => {
-                            // If the image fails to load, show fallback
                             (e.currentTarget as HTMLImageElement).style.display = "none";
                             const parent = e.currentTarget.parentElement;
                             if (parent) {
-                                parent.innerHTML = `<div class="flex flex-col items-center gap-2 text-slate-500 p-4 text-center"><svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><rect width='18' height='18' x='3' y='3' rx='2' ry='2'/><circle cx='9' cy='9' r='2'/><path d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/></svg><p class='text-xs'>Screenshot failed to load</p></div>`;
+                                parent.innerHTML = `<div class="flex flex-col items-center gap-2 text-slate-700 p-4 text-center"><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7'/><line x1='16' y1='5' x2='22' y2='5'/><line x1='19' y1='2' x2='19' y2='8'/><circle cx='9' cy='9' r='2'/><path d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/></svg><p class='text-[9px] uppercase tracking-tighter'>Stream Error</p></div>`;
                             }
                         }}
                     />
                 ) : scanCompleted ? (
-                    // Scan finished but no URL from backend
-                    <div className="flex flex-col items-center gap-2 text-slate-500 p-4 text-center">
-                        <ImageOff className="w-6 h-6" />
-                        <p className="text-xs">Screenshot unavailable</p>
+                    <div className="flex flex-col items-center gap-2 text-slate-700 p-4 text-center">
+                        <ImageOff className="w-5 h-5 opacity-30" />
+                        <p className="text-[9px] uppercase tracking-widest opacity-30 font-bold">Signal Lost</p>
                     </div>
                 ) : (
-                    <Skeleton className="w-full h-full" />
+                    <div className="w-full h-full p-8 flex flex-col items-center justify-center gap-4">
+                        <div className="w-full h-2 bg-white/[0.03] rounded-full overflow-hidden">
+                            <div className="h-full w-1/3 bg-emerald-500/20 animate-shimmer" style={{ background: 'linear-gradient(90deg, transparent, rgba(16,185,129,0.1), transparent)' }}></div>
+                        </div>
+                        <Skeleton className="w-full h-full absolute inset-0 opacity-10 bg-white" />
+                    </div>
                 )}
             </div>
         </div>
@@ -64,56 +68,64 @@ export function VisualMatchCard({
     observations,
 }: VisualMatchCardProps) {
     return (
-        <Card className="bg-slate-900 border-slate-800">
-            <CardHeader className="pb-4">
-                <div className="flex justify-between items-center">
-                    <CardTitle className="text-lg font-mono text-slate-200">
-                        Multimodal Vision Analysis
+        <div className="bg-white/[0.02] backdrop-blur-md border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+            <div className="p-6 border-b border-white/5 flex justify-between items-center bg-white/[0.01]">
+                <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                    <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 font-mono">
+                        Multimodal Analysis
                         {matchedBrand && (
-                            <span className="ml-2 text-sm font-normal text-amber-400">
-                                — targeting {matchedBrand}
+                            <span className="ml-3 text-slate-600 font-normal lowercase tracking-normal">
+                                // target: {matchedBrand}
                             </span>
                         )}
-                    </CardTitle>
-                    {similarityScore !== null && (
+                    </h3>
+                </div>
+                {similarityScore !== null && (
+                    <div className="flex items-center gap-2">
+                        <span className="text-[9px] text-slate-600 font-bold uppercase tracking-widest">Similarity</span>
                         <div
-                            className={`px-3 py-1 rounded text-sm font-bold ${similarityScore > 80
-                                ? "bg-rose-500/10 text-rose-500 border border-rose-500/20"
+                            className={`px-3 py-1 rounded-lg text-[11px] font-black tracking-wider ${similarityScore > 80
+                                ? "bg-rose-500 text-white"
                                 : similarityScore > 40
-                                    ? "bg-amber-500/10 text-amber-500 border border-amber-500/20"
-                                    : "bg-emerald-500/10 text-emerald-500 border border-emerald-500/20"
+                                    ? "bg-amber-500 text-black"
+                                    : "bg-emerald-500 text-black"
                                 }`}
                         >
-                            {similarityScore}% Match
+                            {similarityScore}%
                         </div>
-                    )}
-                </div>
-            </CardHeader>
-            <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    </div>
+                )}
+            </div>
+
+            <div className="p-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <ScreenshotSlot
                         url={suspiciousUrl}
-                        label="Suspicious Site"
+                        label="Source Telemetry"
                         scanCompleted={scanCompleted}
                     />
                     <ScreenshotSlot
                         url={targetUrl}
-                        label="Target Brand"
+                        label="Reference Brand"
                         scanCompleted={scanCompleted}
                     />
                 </div>
 
                 {observations && (
-                    <div className="mt-6 p-4 bg-slate-950 rounded border border-slate-800">
-                        <h4 className="text-sm font-medium text-slate-400 mb-2 font-sans uppercase tracking-tight">
-                            Vision Agent Observations
+                    <div className="mt-10 p-6 bg-emerald-500/[0.03] border border-emerald-500/10 rounded-2xl relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 p-3">
+                            <Zap className="w-3 h-3 text-emerald-500 opacity-20 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                        <h4 className="text-[9px] font-black text-emerald-500/60 uppercase tracking-[0.2em] mb-3">
+                            Vision Agent Intel
                         </h4>
-                        <p className="text-slate-300 text-sm leading-relaxed italic">
-                            &ldquo;{observations}&rdquo;
+                        <p className="text-slate-200 text-xs leading-relaxed font-medium">
+                            {observations}
                         </p>
                     </div>
                 )}
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     );
 }

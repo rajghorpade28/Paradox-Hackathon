@@ -7,6 +7,7 @@ import { AgentStepper } from "@/components/AgentStepper";
 import { VisualMatchCard } from "@/components/VisualMatchCard";
 import { ThreatIntelligenceGrid } from "@/components/ThreatIntelligenceGrid";
 import { RiskScoreGauge } from "@/components/RiskScoreGauge";
+import { GlobalThreatFeed } from "@/components/GlobalThreatFeed";
 import { useSupabaseScan } from "@/hooks/useSupabaseScan";
 
 export default function DashboardPage() {
@@ -36,21 +37,23 @@ export default function DashboardPage() {
 
   return (
     <LayoutShell>
-      <div className="space-y-6 animate-in fade-in duration-500">
+      <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
 
-        {/* Top Search Area */}
-        <section>
-          <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold tracking-tight text-white mb-2">Threat Intelligence Engine</h2>
-            <p className="text-slate-400">Deploy AI agents to analyze domains, scrape content, and detect visual spoofing.</p>
-          </div>
+        {/* Hero Section - Extremely Minimal */}
+        <section className="text-center">
+          <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-4 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/50">
+            Threat Intelligence Engine
+          </h2>
+          <p className="text-[10px] uppercase tracking-[0.5em] text-emerald-500 font-bold mb-10 opacity-80">
+            Autonomous Detection Infrastructure
+          </p>
           <ScannerInput isScanning={isScanning} onSubmit={initiateScan} />
         </section>
 
-        {/* Main Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Global Dashboard Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
 
-          {/* Left Column: Pipeline Steps */}
+          {/* Left Column: Pipeline Steps (1 col) */}
           <div className="lg:col-span-1 space-y-6">
             <AgentStepper
               domainStatus={getStepperStatus("domain")}
@@ -58,12 +61,12 @@ export default function DashboardPage() {
               visionStatus={getStepperStatus("vision")}
             />
 
-            <div className="h-64">
+            <div className="h-48">
               <RiskScoreGauge score={results?.overall_risk_score || 0} />
             </div>
           </div>
 
-          {/* Right Area: Detailed Insights */}
+          {/* Middle Area: Detailed Insights (3 cols) */}
           <div className="lg:col-span-3 space-y-6 flex flex-col">
 
             {/* Visual Comparison Card */}
@@ -85,8 +88,13 @@ export default function DashboardPage() {
                 suspiciousForms={results?.content_agent_data?.suspicious_forms || 0}
               />
             </div>
-
           </div>
+
+          {/* Right Column: Global Threat Feed (1 col) */}
+          <div className="lg:col-span-1">
+            <GlobalThreatFeed />
+          </div>
+
         </div>
 
       </div>
