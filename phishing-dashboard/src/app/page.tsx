@@ -32,12 +32,11 @@ export default function Home() {
           <div className="flex items-center gap-3">
             <div className="size-3 bg-red-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.6)]" />
             <h1 className="text-2xl font-bold tracking-tight text-white">
-              Phishing Command Center
+              PhishGuard Ai
             </h1>
           </div>
           <p className="text-slate-400 text-sm max-w-2xl">
-            Agentic AI URL Analysis & Threat Intelligence. Input a suspicious URL
-            below to orchestrate the intelligence gathering multi-agent system.
+            Intelligent Phishing detection powered by AI Agents
           </p>
         </header>
 
