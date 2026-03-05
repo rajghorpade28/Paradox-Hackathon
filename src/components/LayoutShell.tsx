@@ -58,11 +58,11 @@ export function LayoutShell({ children }: LayoutShellProps) {
           </a>
           <div className="flex items-center gap-3 pt-4 border-t border-white/5">
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-[#ff3b00] flex items-center justify-center text-white font-bold text-xs uppercase cursor-pointer">
-              AG
+              SYS
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-white truncate">Anna Gunn</p>
-              <p className="text-xs text-zinc-500 truncate">@gunna25</p>
+              <p className="text-sm font-medium text-white truncate">System Admin</p>
+              <p className="text-xs text-zinc-500 truncate">Agentic AI</p>
             </div>
           </div>
         </div>

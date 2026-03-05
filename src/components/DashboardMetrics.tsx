@@ -9,7 +9,8 @@ export function DashboardMetrics() {
         totalScans: 0,
         criticalThreats: 0,
         avgScore: 0,
-        recentScans: 0
+        recentScans: 0,
+        uptime: "0h"
     });
 
     useEffect(() => {
@@ -29,7 +30,18 @@ export function DashboardMetrics() {
                 oneDayAgo.setDate(oneDayAgo.getDate() - 1);
                 const recent = data.filter((d: { overall_risk_score: number; created_at: string }) => new Date(d.created_at) > oneDayAgo).length;
 
-                setMetrics({ totalScans: total, criticalThreats: critical, avgScore: avg, recentScans: recent });
+                let uptimeStr = "0h";
+                if (data.length > 0) {
+                    const oldest = new Date(Math.min(...data.map((d: any) => new Date(d.created_at).getTime())));
+                    const now = new Date();
+                    const diffMs = now.getTime() - oldest.getTime();
+                    const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
+                    const diffDays = Math.floor(diffHrs / 24);
+                    const remHrs = diffHrs % 24;
+                    uptimeStr = diffDays > 0 ? `${diffDays}d:${remHrs}h` : `${remHrs}h`;
+                }
+
+                setMetrics({ totalScans: total, criticalThreats: critical, avgScore: avg, recentScans: recent, uptime: uptimeStr });
             }
         }
 
@@ -63,7 +75,7 @@ export function DashboardMetrics() {
                         <div className="w-1/5 bg-zinc-700 h-[50%]"></div>
                         <div className="w-1/5 bg-[#ff3b00] h-[80%]"></div>
                         <div className="w-1/5 bg-[#ff3b00] h-[60%]"></div>
-                        <div className="w-1/5 bg-[#ff3b00] h-[100%] shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+                        <div className="w-1/5 bg-[#ff3b00] h-[100%] shadow-[0_0_8px_rgba(255,59,0,0.5)]"></div>
                     </div>
                 </div>
                 <p className="text-zinc-600 text-[10px] mt-2 font-mono">{metrics.recentScans} last week</p>
@@ -119,10 +131,10 @@ export function DashboardMetrics() {
                     </div>
                 </div>
                 <div className="flex items-end justify-between">
-                    <h2 className="text-3xl font-light text-white">2d:6h</h2>
+                    <h2 className="text-3xl font-light text-white">{metrics.uptime}</h2>
                     <div className="w-16 h-6 flex items-center gap-0.5 justify-end">
                         {Array.from({ length: 12 }).map((_, i) => (
-                            <div key={i} className={`w-1 rounded-full ${i % 3 === 0 ? 'bg-[#ff3b00] h-6' : i % 2 === 0 ? 'bg-amber-500 h-4' : 'bg-emerald-500 h-2'}`}></div>
+                            <div key={i} className={`w-1 rounded-full ${i % 3 === 0 ? 'bg-[#ff3b00] h-6' : i % 2 === 0 ? 'bg-amber-500 h-4' : 'bg-zinc-700 h-2'}`}></div>
                         ))}
                     </div>
                 </div>
